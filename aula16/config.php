@@ -1,6 +1,6 @@
 <?php
  
- $_SESSION["nome"] = "teste";
+ $_SESSION["nome"] = "teste01";
 
 
 ?>
