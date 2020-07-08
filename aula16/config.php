@@ -1,6 +1,7 @@
 <?php
  
- $_SESSION["nome"] = "teste01";
+
+ session_start();
 
 
 ?>
