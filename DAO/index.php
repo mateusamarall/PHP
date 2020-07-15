@@ -37,12 +37,23 @@ require_once("config.php");
 
 
 //criando usuário
-$aluno = new Users("aluno","senhaAluno");
+// $aluno = new Users("aluno","senhaAluno");
 
 
 
-$aluno->store();
+// $aluno->store();
 
 
-echo $aluno;
-?>
+// echo $aluno;
+
+
+//Update de usuário
+
+$usuario = new Users();
+
+$usuario->loadById(8);
+
+$usuario->update("professor", "senhaprofessor");
+
+echo $usuario;
+ ?>
