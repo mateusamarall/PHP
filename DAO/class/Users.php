@@ -149,7 +149,7 @@ class Users{
 
         $this->setDessenha($password);
     }
-
+    //Função para atualizar usuário
     public function update($login, $password){
 
         $this->setDeslogin($login);
@@ -162,6 +162,20 @@ class Users{
             ':PASSWORD'=>$this->getDessenha(),
             ':ID'=>$this->getIdusuario()
         ));
+    }
+
+    //Função para deletar usuario
+
+    public function delete(){
+        $sql = new Sql();
+        $sql->query("DELETE FROM tb_usuarios WHERE idusuario= :ID",
+        array(
+            ':ID'=>$this->getIdusuario(),
+        ));
+        $this->setIdusuario(0);
+        $this->setDeslogin("");
+        $this->setDessenha("");
+        $this->setDtcadastro(new DateTime());
     }
 
     //retornar um usuário pelo ID
