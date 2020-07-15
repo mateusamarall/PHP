@@ -62,20 +62,15 @@ class Users{
 
         $sql = new Sql();
 
-        $resultSql = $sql->select("SELECT * FROM tb_usuarios WHERE idusuario = :ID", array(
+        $results = $sql->select("SELECT * FROM tb_usuarios WHERE idusuario = :ID", array(
 
             ":ID"=>$id
 
         ));
 
-        if(count($resultSql)>0){
+        if(count($results)>0){
 
-            $row = $resultSql[0];
-
-            $this->setIdusuario($row['idusuario']);
-            $this->setDeslogin($row['deslogin']);
-            $this->setDessenha($row['dessenha']);
-            $this->setDtcadastro(new DateTime($row['dtcadastro']));
+       $this->setData($results[0]);
         }
     }
 
@@ -103,7 +98,7 @@ class Users{
 
         $sql = new Sql();
 
-        $resultSql = $sql->select("SELECT * FROM tb_usuarios WHERE deslogin = :LOGIN  and dessenha = :PASSWORD",
+        $results = $sql->select("SELECT * FROM tb_usuarios WHERE deslogin = :LOGIN  and dessenha = :PASSWORD",
          array(
 
             ":LOGIN"=>$login,
@@ -111,14 +106,10 @@ class Users{
 
         ));
 
-        if(count($resultSql)>0){
+        if(count($results)>0){
 
-            $row = $resultSql[0];
 
-            $this->setIdusuario($row['idusuario']);
-            $this->setDeslogin($row['deslogin']);
-            $this->setDessenha($row['dessenha']);
-            $this->setDtcadastro(new DateTime($row['dtcadastro']));
+          $this->setData($results[0]);
         }
         else{
             throw new Exception("Login ou senha inválido.");
@@ -127,6 +118,37 @@ class Users{
 
     }
 
+    
+    public function setData($data){
+
+        $this->setIdusuario($data['idusuario']);
+        $this->setDeslogin($data['deslogin']);
+        $this->setDessenha($data['dessenha']);
+        $this->setDtcadastro(new DateTime($data['dtcadastro']));
+
+    }
+
+    //Função inserir usuário no bd
+    public function store(){
+
+        $sql = new Sql();
+
+        $results = $sql->select("CALL sp_usuarios_insert(:LOGIN, :PASSWORD)",
+        array(
+            ':LOGIN'=>$this->getDeslogin(),
+            ':PASSWORD'=>$this->getDessenha(),
+        ));
+
+        if(count($results)>0){
+            $this->setData($results[0]);
+        }
+    }
+    //Função inserir usuário no bd
+    public function __construct($login="", $password=""){
+        $this->setDeslogin($login);
+
+        $this->setDessenha($password);
+    }
 
     //retornar um usuário pelo ID
     public function __toString(){
