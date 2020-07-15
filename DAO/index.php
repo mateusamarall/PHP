@@ -29,9 +29,20 @@ require_once("config.php");
 
 //carregando um usuário usando o login e a senha
 
-$user = new Users();
+// $user = new Users();
 
-$user->login("mateus","123456789");
-echo $user;
+// $user->login("mateus","123456789");
+// echo $user;
 
+
+
+//criando usuário
+$aluno = new Users("aluno","senhaAluno");
+
+
+
+$aluno->store();
+
+
+echo $aluno;
 ?>
